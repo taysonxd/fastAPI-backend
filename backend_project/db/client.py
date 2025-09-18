@@ -16,17 +16,28 @@ try:
     logger.info(f"Intentando conectar a MongoDB...")
     logger.info(f"URL de MongoDB: {mongodb_url[:50]}...")  # Solo mostrar los primeros 50 caracteres por seguridad
     
-    # Crear cliente con timeout
-    client = MongoClient(
-        mongodb_url,
-        serverSelectionTimeoutMS=5000,  # 5 segundos de timeout
-        connectTimeoutMS=5000,
-        socketTimeoutMS=5000
-    )
+    # Configuración optimizada para Vercel
+    client_options = {
+        'serverSelectionTimeoutMS': 10000,  # 10 segundos
+        'connectTimeoutMS': 10000,
+        'socketTimeoutMS': 10000,
+        'maxPoolSize': 10,
+        'minPoolSize': 1,
+        'maxIdleTimeMS': 30000,
+        'retryWrites': True,
+        'retryReads': True,
+        'directConnection': False,  # Importante para Vercel
+        'tls': True,  # Forzar TLS
+        'tlsAllowInvalidCertificates': False,
+        'tlsAllowInvalidHostnames': False
+    }
+    
+    # Crear cliente con configuración optimizada
+    client = MongoClient(mongodb_url, **client_options)
     
     logger.info("Cliente MongoDB creado, probando conexión...")
     
-    # Probar la conexión
+    # Probar la conexión con timeout más largo
     client.admin.command('ping')
     db_client = client.test
     logger.info("✅ Conexión a MongoDB establecida correctamente")
