@@ -124,14 +124,11 @@ def search_user(field: str, key):
     
     try:
         user = db_client.users.find_one({ field: key })
+        
         if user is None:
-            raise HTTPException(
-                status_code=404, 
-                detail="Usuario no encontrado"
-            )
-        return User.model_validate(user_schema(user))
-    except HTTPException:
-        raise
+            return {"error": "No se ha encontrado el usuario"}
+
+        return User.model_validate(user_schema(user))    
     except Exception as e:
         raise HTTPException(
             status_code=500, 
