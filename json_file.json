@@ -1,0 +1,12 @@
+{
+    "name": "german",
+    "lastname": "azuaje",
+    "age": 31,
+    "languages": [
+        "python",
+        "javascript",
+        "nodejs",
+        "php"
+    ],
+    "website": "none"
+}

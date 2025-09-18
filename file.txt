@@ -1,0 +1,6 @@
+Mi nombre es German
+Mi apellido es Azuaje
+tengo 21 años
+mi lenguaje favorito es python
+Aunque tambien me gusta javascript
+Y PHP
